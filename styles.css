@@ -28,3 +28,13 @@ body {
     border-radius: 5px;
     display: inline-block;
 }
+
+#periodLabel2 {
+    font-size: 48px;
+    color: #555;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #FFA500;
+    border-radius: 5px;
+    display: inline-block;
+}
