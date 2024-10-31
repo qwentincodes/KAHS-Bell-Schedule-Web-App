@@ -1,101 +1,388 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html class="en-us" lang="en" >
 <head>
+<link rel="icon" type="image/gif" href="images/rewordifyicon.gif">
+<title>School Clock | From Rewordify.com</title>
   <meta charset="utf-8">
-  <meta name="description" content="This School Clock shows you what period you're in, every second of the day.">
-  <title>School Clock</title>
+  <meta name="description" content="Rewordify.com School Clock shows you what period you're in, every second of the day.">
   <style>
-    body {
-      font-family: sans-serif; /* Modern, generic font */
-      margin: 0;
-      padding: 20px;
-    }
-    #container {
-      text-align: center;
-    }
-    h1, h2, h3 {
-      margin: 10px 0;
-    }
-    .time {
-      font-size: 2.5em;
-    }
-    .period-label {
-      font-size: 1.8em;
-    }
-    .schedule {
-      margin-top: 30px;
-    }
-    .schedule h4 {
-      margin-bottom: 10px;
-    }
-    .schedule p {
-      margin: 5px 0;
-    }
-    #color-selector {
-      margin-top: 20px;
-    }
+  #container{
+    text-align:center;
+    font-family:"Lucida Console", Monaco, monospace;
+  }
+  #currentdt{
+    font-size:2.5em;
+    margin-top:16px;
+  }
+  #countdowntointro{
+    margin-top:24px;
+  }
+  #countdown{
+    font-size:2.2em;
+    margin-top:6px;  
+  }
+  #countdowntolabel{
+    font-size:2em;
+    margin-top:10px;  
+  }
+  #wearenowintro{
+    margin-top:24px;
+  }
+  #wearenow{
+    font-size:1em;
+    margin-top:8px;  
+  }
+  #wearenowtimerange{
+    font-size:1.8em;
+    margin-top:8px;  
+  }
+  #wearenowlabel{
+    font-size:3.5em;
+    margin-top:10px;  
+  }
+  #ad{
+    margin-top:28px;
+    font-size:.8em;
+  }
+  .howtouse{
+	width:75%;
+	max-width:800px;
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+  }
+  .tinput{
+	width:70px;
+	background-color:lemonchiffon;
+	margin-top:4px;
+  }
+  .dinput{
+	width:120px;
+	background-color:lemonchiffon;
+	margin-top:4px;
+  }
+  #sform{
+	border:1px solid gray;
+	padding:8px;
+	background-color:#EFEFEF;
+  }
+  #result{
+	border:1px solid gray;
+	padding:8px;
+	background-color:#EFEFEF;
+	display:none;
+  }
+  #urltext{
+	padding:4px;
+  }
+  @media only screen and (max-width:540px){
+	.howtouse{width:95%}
+  }
   </style>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-38305535-1', 'rewordify.com');
+ga('send', 'pageview');
+</script>
 </head>
 <body>
-  <div id="container">
-    <h1>School Clock</h1>
-    <h2 id="current-time"></h2>
-    <h3 id="current-period"></h3>
-    <h3 id="countdown"></h3>
-    <div class="schedule">
-      <h4>Today's Schedule:</h4>
-      <p id="schedule-content"></p>
-    </div>
-    <div id="color-selector">
-      Choose a color scheme:
-      <select id="color-scheme">
-        <option value="white">White background</option>
-        <option value="black">Black background</option>
-        <option value="random">Random (changes every second)</option>
-      </select>
-    </div>
-  </div>
-  <script>
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+<div id="container">
+<div id="currenttimeintro">Current date/time:</div>
+<div id="currentdt"></div>
+<div id="wearenowintro"></div>
+<div id="wearenowlabel"></div>
+<div id="wearenowtimerange"></div>
+<div id="wearenow"></div>
+<div id="countdowntointro"></div>
+<div id="countdowntolabel"></div>
+<div id="countdown"></div>
+<div id="schedule"></div>
 
-    let adjustSeconds = 0;
-    let currentPeriod = -1;
-    let randomColor = false;
 
-    function updateTime() {
-      const now = new Date(Date.now() + (adjustSeconds * 1000));
-      const formattedDate = now.toLocaleDateString();
-      const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+<script>var starts=[];var names=[];var times=[];times[0]='08:05=Arrival - Breakfast';starts[0]=29100;names[0]='Arrival - Breakfast';times[0]='08:05';times[1]='08:28=Passing';starts[1]=30480;names[1]='Passing';times[1]='08:28';times[2]='08:31=Period 1';starts[2]=30660;names[2]='Period 1';times[2]='08:31';times[3]='09:55=Passing';starts[3]=35700;names[3]='Passing';times[3]='09:55';times[4]='09:58=Period 2';starts[4]=35880;names[4]='Period 2';times[4]='09:58';times[5]='11:28=Passing';starts[5]=41280;names[5]='Passing';times[5]='11:28';times[6]='11:31=Lunch-Advisory 1';starts[6]=41460;names[6]='Lunch-Advisory 1';times[6]='11:31';times[7]='12:02=Lunch-Advisory 2';starts[7]=43320;names[7]='Lunch-Advisory 2';times[7]='12:02';times[8]='12:33=Lunch-Advisory 3';starts[8]=45180;names[8]='Lunch-Advisory 3';times[8]='12:33';times[9]='13:01=Passing';starts[9]=46860;names[9]='Passing';times[9]='13:01';times[10]='13:04=Period 6';starts[10]=47040;names[10]='Period 6';times[10]='13:04';times[11]='14:34=Passing';starts[11]=52440;names[11]='Passing';times[11]='14:34';times[12]='14:37=Period 7';starts[12]=52620;names[12]='Period 7';times[12]='14:37';times[13]='16:07=Dismissal';starts[13]=58020;names[13]='Dismissal';times[13]='16:07';times[14]='16:22=HS Staff Dismissed';starts[14]=58920;names[14]='HS Staff Dismissed';times[14]='16:22';</script><select style="margin-top:12px" id="cs" onchange="ck()">
+    <option value="wb">White on black</option>
+    <option value="bw" selected>Black on white</option>
+    <option value="dk">Dark room</option>
+    <option value="bg">Blue on green</option>
+    <option value="py">Purple on yellow</option>
+    <option value="sr">Random by minute</option>
+</select><br />
+Time adjustment in seconds: <input type="text" style="margin-top:12px;width:30px" onclick="hlt()" id="timeadj" value="0" maxlength="4" /> <button type="button" onclick="timeadj()">Set</button>
+<div id="ad">Run your own, customized, free School Clock on any computer!<br />Just visit <a href="http://rewordify.com/schoolclock.php">http://rewordify.com/schoolclock.php</a><br /><br />Read more, understand more, and<br />teach more effectively at <a target="_blank" href="http://rewordify.com">Rewordify.com</a></div></div>
+<script>
+var days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var randm=false;
+var adjustseconds=0;
+function hlt(){
+	_('timeadj').style.backgroundColor='SandyBrown';
+}
+function timeadj(){
+	if ((_('timeadj').value>-300) & (_('timeadj').value<300)){
+		adjustseconds=_('timeadj').value;
+		_('timeadj').style.backgroundColor='white';
+	}
+}
+function _(el){
+	return document.getElementById(el);
+}
+function checkfields(){
+	var times=document.getElementsByClassName("tinput");
+	var descrips=document.getElementsByClassName("dinput");
+	var tl=times.length;
 
-      document.getElementById("current-time").textContent = `${formattedDate} ${formattedTime}`;
+	var timereg=new RegExp("^([01]?[0-9]|2[0-3]):[0-5][0-9] ?[aApP]\.?[mM]\.?$");
+	var nomilreg=new RegExp("^(1[3-9]|2[0-3]):[0-5][0-9] ?[aA]\.?[mM]\.?$");
+	var descripreg=new RegExp("^[A-Za-z0-9 \!\'\#\(\)\.\,\-]{1,40}$");
+	var goodfields=true;
+	for (x=0;x<tl;x++){
+		if (times[x].value.length>1){
+			if (!timereg.test(times[x].value)){
+				goodfields=false;
+				alert ("Invalid time value in period "+(x+1)+". Enter time in HH:MM format, and end it with am or pm.");
+			}
+			if (nomilreg.test(times[x].value)){
+				goodfields=false;
+				alert ("Invalid time value in period "+(x+1)+". You entered a military time in the afternoon (from 13:00 to 23:59), but you specified \"am\", which is impossible.");
+			}
+			if (descrips[x].value.length<1){
+				goodfields=false;
+				alert ("Missing description for period "+(x+1)+". All periods must have a description.");
+			}else if (!descripreg.test(descrips[x].value)){
+				goodfields=false;
+				alert ("Invalid description value in period "+(x+1)+". You may enter from 1 through 40 letters, numbers, spaces, and the following characters only:'-#(),!.");
+			}
+		}
+	}
+			var dummy;
+		var oldmarker=-1;
+	if (goodfields){
+		for (x=0;x<tl;x++){
+			if (times[x].value.length>1){
+				ttime=times[x].value.match(/^([01]?[0-9]|2[0-3]):([0-5][0-9]) ?([aApP])\.?[mM]\.?$/);
+				var hours=ttime[1];
+				var minutes=ttime[2];
+				var ampm=ttime[3].toLowerCase();
+				if (ampm=='p'){
+					if ((hours>12) && (hours<24)){
+						dummy=dummy;
+					}else if (hours==12){
+						dummy=dummy;
+					}else{
+						hours=(parseInt(hours)+12);
+					}
+				}
+				if (oldmarker>-1){
+					curmarker=((parseInt(hours*60))+parseInt(minutes));
+					if (curmarker<oldmarker){
+						goodfields=false;
+						alert ("Invalid time sequence at period "+(x+1)+". The start time for this period is before the start time for the previous period. All start times must be after the previous start time.");
+					}
+				}
+				oldmarker=((parseInt(hours*60))+parseInt(minutes));
+			}
+		}
+	}
+	if (goodfields){
+		var startofcurl="http://rewordify.com/schoolclock.php?p=";
+		var scurl='';
+		for (x=0;x<tl;x++){
+			if (times[x].value.length>1){
+				ttime=times[x].value.match(/^([01]?[0-9]|2[0-3]):([0-5][0-9]) ?([aApP])\.?[mM]\.?$/);
+				var hours=ttime[1];
+				var minutes=ttime[2];
+				var ampm=ttime[3].toLowerCase();
+				if (ampm=='p'){
+					if ((hours>12) && (hours<24)){
+						scurl=scurl+hours+':'+minutes;
+					}else if (hours==12){
+						scurl=scurl+'12:'+minutes;
+					}else{
+						hours=(parseInt(hours)+12);
+						scurl=scurl+hours+':'+minutes;
+					}
+				}else{
+					if ((hours==10) || (hours==11) || (hours==12)){
+						scurl=scurl+hours+':'+minutes;
+					}else{
+						scurl=scurl+'0'+hours+':'+minutes;
+					}
+				}
+				scurl=scurl+'='+descrips[x].value+";";
+			}
+		}
+		scurl=scurl.substr(0,(scurl.length)-1);
 
-      const seconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+		scurl=scurl.replace(/'/g,'\\\'');
+		scurl=startofcurl+scurl;
+		_("sform").style.display="none";
+		_("pitch").style.display="none";
+		_("result").style.display="block";
+		_("result").innerHTML="<p style='font-size:1.4em'>Here's your customized School Clock URL:</p><p><textarea onclick='this.select()' cols='50' rows='10' id='urltext'></textarea></p><p>Copy-paste it into any browser and the School Clock for your schedule will start immediately. Make as many customized URLs as you want (for days with special schedules, etc.)</p><p><a href='#' onclick='goback()'>Go back and edit this schedule</a></p><p style='font-size:.8em'>Note to power users: You can manually edit the URL if you want. After 'schoolclock.php?p=', enter a series of 'HH:MM=Description;' parameters. Time: military 24:00 time. No semicolon at the end.</p>";
+		_("urltext").innerHTML=scurl;
+	}
+}
 
-      if (typeof starts !== "undefined") {
-        const periods = starts.length;
+function goback(){
+		_("sform").style.display="block";
+		_("result").style.display="none";
+		_("pitch").style.display="block";
+}
 
-        if (seconds < starts[0]) {
-          document.getElementById("current-period").textContent = `Countdown to ${names[0]}`;
-          document.getElementById("countdown").textContent = secondsToHHMMSS(Math.abs(seconds - starts[0]));
-        } else if (seconds > starts[periods - 1]) {
-          document.getElementById("current-period").textContent = `Time past: ${names[periods - 1]}`;
-          document.getElementById("countdown").textContent = "";
-          document.getElementById("schedule-content").textContent = getScheduleText();
-        } else {
-          for (let i = 0; i < periods - 1; i++) {
-            if (seconds >= starts[i] && seconds < starts[i + 1]) {
-              currentPeriod = i;
-              document.getElementById("current-period").textContent = `Now in ${secondsToHHMMSS(seconds - starts[i])} of ${names[i]}`;
-              document.getElementById("countdown").textContent = `Countdown to ${names[i + 1]}`;
-              document.getElementById("countdown").textContent = secondsToHHMMSS(Math.abs(seconds - starts[i + 1]));
-              break;
-            }
-          }
-        }
+function colorizerandom(){
+    var r1=Math.floor((Math.random() * 254) + 1);
+    var g1=Math.floor((Math.random() * 254) + 1);
+    var b1=Math.floor((Math.random() * 254) + 1);
+    var r2=Math.floor((Math.random() * 254) + 1);
+    var g2=Math.floor((Math.random() * 254) + 1);
+    var b2=Math.floor((Math.random() * 254) + 1);
+    document.body.style.color="rgb("+r1+","+g1+","+b1+")";
+    document.body.style.backgroundColor="rgb("+r2+","+g2+","+b2+")";
+}
+function ck(){
+    opt=_("cs");
+    if (opt.value=='wb'){randm=false;opt.style.color='white';opt.style.backgroundColor='black';document.body.style.color='white';document.body.style.backgroundColor='black';}
+    if (opt.value=='bw'){randm=false;opt.style.color='black';opt.style.backgroundColor='white';document.body.style.color='black';document.body.style.backgroundColor='white';}
+    if (opt.value=='dk'){randm=false;opt.style.color='crimson';opt.style.backgroundColor='black';document.body.style.color='crimson';document.body.style.backgroundColor='black';}
+    if (opt.value=='bg'){randm=false;opt.style.color='#5077BE';opt.style.backgroundColor='#D9FFB2';document.body.style.color='#5077BE';document.body.style.backgroundColor='#D9FFB2';}
+    if (opt.value=='py'){randm=false;opt.style.color='#B44DE0';opt.style.backgroundColor='#FFFF99';document.body.style.color='#B44DE0';document.body.style.backgroundColor='#FFFF99';}
+    if (opt.value=='sr'){randm=true;colorizerandom();}
+}
+setInterval(showclock,1000);
 
-        document.getElementById("schedule-content").textContent = getScheduleText();
-      }
+function showclock(){
+    var curperiod=-1;
+    var og=new Date();
+	var d=new Date(og.getTime()+(adjustseconds*1000));
+	
+    var fdate=d.getDate();
+    if (fdate<10){fdate='0'+fdate;}
+    var fhours=d.getHours();
+    var ampm = fhours >= 12 ? 'PM' : 'AM';
+    fhours = fhours % 12;
+    if (fhours==0){fhours=12;}
+    if (fhours<10){fhours='0'+fhours;}
+    var fminutes=d.getMinutes();
+    if (fminutes<10){fminutes='0'+fminutes;}
+    var fseconds=d.getSeconds();
+    if ((randm) && (fseconds==0)) {
+        colorizerandom();
+    }
+    if (fseconds<10){fseconds='0'+fseconds;}
+    var dd=days[d.getDay()]+' '+months[d.getMonth()]+' '+fdate+' '+d.getFullYear()+' '+fhours+':'+fminutes+':'+fseconds+' '+ampm;
+    _("currentdt").innerHTML=dd;
+    cursecs=((d.getHours())*3600)+((d.getMinutes())*60)+(d.getSeconds());
+	if (typeof starts !== "undefined") {
+		perc=starts.length;
+		if (cursecs<starts[0]){
+			_("wearenowintro").innerHTML="Countdown to";
+			_("wearenowlabel").innerHTML=names[0];
+			_("wearenow").innerHTML=(secondstohhmmss(Math.abs(cursecs-starts[0])));
+		}else if (cursecs>starts[perc-1]){
+			_("wearenowintro").innerHTML="Time past:";
+			_("wearenowlabel").innerHTML=names[perc-1];
+			_("wearenowtimerange").innerHTML='';
+			_("wearenow").innerHTML=(secondstohhmmss(cursecs-starts[perc-1]));    
+			_("countdowntointro").innerHTML='';
+			_("countdowntolabel").innerHTML='';
+			_("countdown").innerHTML='';
+		}else{
+			for (x=0;x<perc-1;x++){
+				if ((starts[x]<cursecs) && (starts[x+1]>cursecs)){
+					curperiod=x;
+					_("wearenowintro").innerHTML="We are now "+(secondstohhmmss(cursecs-starts[x]))+" into:";
+					_("wearenowlabel").innerHTML=names[x];
+					_("wearenow").innerHTML='';
+					//_("wearenow").innerHTML=(secondstohhmmss(cursecs-starts[x]));
+					_("countdowntointro").innerHTML="Countdown to:";
+					_("countdowntolabel").innerHTML=names[x+1];
+					_("countdown").innerHTML=(secondstohhmmss(Math.abs(cursecs-starts[x+1])));
+				}
+			}
+		}
 
-      if (randomColor) {
-        const r = Math.floor(Math
+		var ts="<div style='margin-top:30px;display:block;width:100%;text-align:center'><div style='display:inline-block;margin-left:auto;margin-right:auto;text-align:left;width:auto'>Today's Schedule:<br />";
+		//ts=ts+times[0]+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+names[0]+'<br />';
+		for (x=0;x<perc-1;x++){
+			if (x==curperiod){ts=ts+'<strong>'}
+			disptime=times[x];
+			disptimex=times[x+1];
+			disptimez=times[perc-1];
+			//alert(disptime.substring(0,2));
+			// hc=disptime.substring(0,2);
+			// alert(hc*2);
+			//return;
+			if (disptime.substring(0,2)<12){
+				disptime=disptime+' AM';
+			}else{
+				hc=disptime.substring(0,2);
+				if (hc>12){hc=hc-12};
+				if (hc<10){hc='0'+hc;}
+				disptime=hc+disptime.substring(2,5)+' PM';
+			}
+			if (disptimex.substring(0,2)<12){
+				disptimex=disptimex+' AM';
+			}else{
+				hc=disptimex.substring(0,2);
+				if (hc>12){hc=hc-12};
+				if (hc<10){hc='0'+hc;}
+				disptimex=hc+disptimex.substring(2,5)+' PM';
+			}
+			if (disptimez.substring(0,2)<12){
+				disptimez=disptimex+' AM';
+			}else{
+				hc=disptimez.substring(0,2);
+				if (hc>12){hc=hc-12};
+				if (hc<10){hc='0'+hc;}
+				disptimez=hc+disptimez.substring(2,5)+' PM';
+			}
+			ts=ts+disptime+'-'+disptimex+' '+names[x]+"<br >";
+			if (x==curperiod){
+				ts=ts+'</strong>';
+				_('wearenowtimerange').innerHTML=disptime+'-'+disptimex;
+			}
+		}
+		
+		ts=ts+disptimez+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+names[perc-1]+'</div></div>';
+		_("schedule").innerHTML=ts;
+	}
+    delete window.d;
+}
+function omb(hhmm){
+    var ch=hhmm.substr(0,2);
+    var cm=hhmm.substr(3,2);
+    //if (ch<10){ch='0'+ch}
+    if (ch==0){ch='00';}
+    //if (cm<10){cm='0'+cm}
+    if (cm==0){cm='00';}
+    return ch+':'+cm;
+}
+function secondstohhmmss(secs){
+    var h=parseInt(secs/3600);
+    if (h<10){h='0'+h}
+    if (h==0){h='00'}
+    
+    var secs=(secs-(h*3600));
+    var m=parseInt(secs/60);
+    if (m<10){m='0'+m}
+    if (m==0){m='00'}    
+    var secs=parseInt(secs-(m*60));
+    
+    var s=secs;
+    if (s<10){s='0'+s}
+    if (h!='00'){
+        return h+':'+m+':'+s;
+    }else if(m!='00'){
+        return m+':'+s;    
+    }else{
+        return s;    
+    }
+}
+</script>
+</body>
+</html>
