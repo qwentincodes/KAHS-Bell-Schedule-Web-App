@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="This School Clock shows you what period you're in, every second of the day.">
+  <title>School Clock</title>
+  <style>
+    body {
+      font-family: sans-serif; /* Modern, generic font */
+      margin: 0;
+      padding: 20px;
+    }
+    #container {
+      text-align: center;
+    }
+    h1, h2, h3 {
+      margin: 10px 0;
+    }
+    .time {
+      font-size: 2.5em;
+    }
+    .period-label {
+      font-size: 1.8em;
+    }
+    .schedule {
+      margin-top: 30px;
+    }
+    .schedule h4 {
+      margin-bottom: 10px;
+    }
+    .schedule p {
+      margin: 5px 0;
+    }
+    #color-selector {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>School Clock</h1>
+    <h2 id="current-time"></h2>
+    <h3 id="current-period"></h3>
+    <h3 id="countdown"></h3>
+    <div class="schedule">
+      <h4>Today's Schedule:</h4>
+      <p id="schedule-content"></p>
+    </div>
+    <div id="color-selector">
+      Choose a color scheme:
+      <select id="color-scheme">
+        <option value="white">White background</option>
+        <option value="black">Black background</option>
+        <option value="random">Random (changes every second)</option>
+      </select>
+    </div>
+  </div>
+  <script>
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    let adjustSeconds = 0;
+    let currentPeriod = -1;
+    let randomColor = false;
+
+    function updateTime() {
+      const now = new Date(Date.now() + (adjustSeconds * 1000));
+      const formattedDate = now.toLocaleDateString();
+      const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      document.getElementById("current-time").textContent = `${formattedDate} ${formattedTime}`;
+
+      const seconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+      if (typeof starts !== "undefined") {
+        const periods = starts.length;
+
+        if (seconds < starts[0]) {
+          document.getElementById("current-period").textContent = `Countdown to ${names[0]}`;
+          document.getElementById("countdown").textContent = secondsToHHMMSS(Math.abs(seconds - starts[0]));
+        } else if (seconds > starts[periods - 1]) {
+          document.getElementById("current-period").textContent = `Time past: ${names[periods - 1]}`;
+          document.getElementById("countdown").textContent = "";
+          document.getElementById("schedule-content").textContent = getScheduleText();
+        } else {
+          for (let i = 0; i < periods - 1; i++) {
+            if (seconds >= starts[i] && seconds < starts[i + 1]) {
+              currentPeriod = i;
+              document.getElementById("current-period").textContent = `Now in ${secondsToHHMMSS(seconds - starts[i])} of ${names[i]}`;
+              document.getElementById("countdown").textContent = `Countdown to ${names[i + 1]}`;
+              document.getElementById("countdown").textContent = secondsToHHMMSS(Math.abs(seconds - starts[i + 1]));
+              break;
+            }
+          }
+        }
+
+        document.getElementById("schedule-content").textContent = getScheduleText();
+      }
+
+      if (randomColor) {
+        const r = Math.floor(Math
